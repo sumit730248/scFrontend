@@ -11,7 +11,7 @@ function App() {
   return (
     <div className='w-screen h-screen bg-gray-900'>
       <NavBar searchPlaceHolder={'Search'} />
-      <div className='h-screen'>
+      <div className='h-screen overflow-x-hidden'>
         <Outlet />
       </div>
     </div>
