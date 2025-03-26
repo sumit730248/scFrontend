@@ -13,6 +13,7 @@ import JobListings from "./pages/JobListing";
 import AuthLayout from "./components/AuthLayout";
 import ProfilePage from "./pages/ProfilePage";
 import CompanyQuestionsPage from "./pages/CompanyQuestionsPage";
+import SearchResultsPage from "./pages/SearchResultsPage";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,14 @@ const router = createBrowserRouter([
         element: (
           <AuthLayout authentication={false}>
             <HomePage />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/search/:query",
+        element: (
+          <AuthLayout authentication={true}>
+            <SearchResultsPage />
           </AuthLayout>
         ),
       },
