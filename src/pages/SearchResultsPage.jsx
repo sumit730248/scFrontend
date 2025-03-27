@@ -153,7 +153,11 @@ const SearchResultsPage = () => {
         </section>
 
         {/* People Section */}
-        <section ref={sectionRefs.People} id="people-section" className="py-4">
+        <section
+          ref={sectionRefs.People}
+          id="people-section"
+          className="py-4 mb-20 md:mb-2"
+        >
           <h2 className="text-2xl font-bold mb-6 dark:text-white">People</h2>
           <div className="space-y-4">
             {searchResults.users.length > 0 ? (
