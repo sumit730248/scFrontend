@@ -1,7 +1,9 @@
+import { apiClient } from "@/app/api/axiosInstance";
 import { timeAgo } from "@/app/helpers/timeAgo";
-import { clearPostsState, toggleLike } from "@/app/slices/postSlice";
+import { toggleLike } from "@/app/slices/postSlice";
+import { BASE_URL } from "@/constants/BASE_URL";
 import { MoreHorizontal, ThumbsUp } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -11,13 +13,15 @@ const PostContent = ({ content }) => {
 
   // Preserve line breaks while limiting initial view
   const renderContent = () => {
-    const lines = content.split('\n');
+    const lines = content.split("\n");
 
     if (!isExpanded && lines.length > MAX_LINES) {
       return (
         <>
           {lines.slice(0, MAX_LINES).map((line, index) => (
-            <p key={index} className="line-clamp-1">{line}</p>
+            <p key={index} className="line-clamp-1">
+              {line}
+            </p>
           ))}
           <button
             onClick={() => setIsExpanded(true)}
@@ -30,14 +34,16 @@ const PostContent = ({ content }) => {
     }
 
     return lines.map((line, index) => (
-      <p key={index} className="whitespace-pre-wrap">{line}</p>
+      <p key={index} className="whitespace-pre-wrap">
+        {line}
+      </p>
     ));
   };
 
   return (
     <div className="my-4 text-gray-800 dark:text-gray-200">
       {renderContent()}
-      {isExpanded && content.split('\n').length > MAX_LINES && (
+      {isExpanded && content.split("\n").length > MAX_LINES && (
         <button
           onClick={() => setIsExpanded(false)}
           className="text-blue-600 hover:text-blue-800 text-sm mt-1"
@@ -59,6 +65,23 @@ const PostCard = ({
   time,
   isAuthenticated,
 }) => {
+  const dispatch = useDispatch();
+  const [title, setTitle] = useState("");
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await apiClient.get(
+          `${BASE_URL}/profile/${author?._id}`,
+        );
+        setTitle(response.data.data.title);
+      } catch (error) {
+        console.error("Failed to fetch user data", error);
+      }
+    };
+
+    fetchUserData();
+  }, [dispatch, author?._id]);
+
   time = timeAgo(time);
   return (
     <div
@@ -81,14 +104,11 @@ const PostCard = ({
                 </span>
               </h3>
               <p className="text-gray-500 dark:text-gray-400 text-sm">
-                {author?.title} react devloper devloping web application
+                {title}
               </p>
               <p className="text-gray-400 dark:text-gray-500 text-xs">{time}</p>
             </div>
           </Link>
-          <button className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300">
-            <MoreHorizontal className="h-5 w-5" />
-          </button>
         </div>
         {image && <PostContent content={content} />}
         {!image && <p className="">{content}</p>}
@@ -118,10 +138,11 @@ const Like = ({ isAuthenticated, likes, isLiked, postId }) => {
   return (
     <button
       onClick={() => handleLike()}
-      className={` flex items-center space-x-2 ${isAuthenticated
+      className={` flex items-center space-x-2 ${
+        isAuthenticated
           ? "text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"
           : "text-gray-300 dark:text-gray-600 cursor-not-allowed"
-        } `}
+      } `}
     >
       <ThumbsUp
         className={`h-5 w-5 ${liked ? "fill-blue-600 text-blue-600" : "bg-transparent"}`}

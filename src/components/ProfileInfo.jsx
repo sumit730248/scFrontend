@@ -7,10 +7,10 @@ import { getSubscribers, selectSubscribers } from "@/app/slices/profileSlice";
 
 const ProfileInfo = () => {
   const currentUser = useSelector(selectCurrentUser);
-  const connections = useSelector(selectSubscribers)
+  const connections = useSelector(selectSubscribers);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (currentUser) dispatch(getSubscribers( currentUser._id ));
+    if (currentUser) dispatch(getSubscribers(currentUser._id));
   }, [dispatch, currentUser]);
   return (
     <div className=" flex flex-col">
@@ -32,21 +32,6 @@ const ProfileInfo = () => {
         <p className="text-gray-600 dark:text-gray-300 text-sm">
           @{currentUser?.userName}
         </p>
-        <p className="text-gray-500 dark:text-gray-400 text-sm mt-2">
-          {currentUser?.location || "no location"}
-        </p>
-        <div className="mt-4 border-t dark:border-gray-700 pt-4">
-          <div className="flex justify-between text-sm">
-          </div>
-          <div className="flex justify-between text-sm mt-2">
-            <span className="text-gray-500 dark:text-gray-400">
-              Connections
-            </span>
-            <span className="text-gray-900 dark:text-white font-medium">
-              {connections || 0}
-            </span>
-          </div>
-        </div>
       </div>
     </div>
   );

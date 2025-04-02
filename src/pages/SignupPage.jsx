@@ -129,7 +129,7 @@ const SignupPage = () => {
             {!showResumeForm ? (
               <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                 <div>
-                  <Label className="text-gray-200">Username</Label>
+                  <Label className="text-gray-200"> * Username</Label>
                   <div className="mt-1 relative">
                     <User className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                     <Input
@@ -148,7 +148,7 @@ const SignupPage = () => {
                 </div>
 
                 <div>
-                  <Label className="text-gray-200">Email</Label>
+                  <Label className="text-gray-200">* Email</Label>
                   <div className="mt-1 relative">
                     <Mail className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                     <Input
@@ -171,7 +171,7 @@ const SignupPage = () => {
                 </div>
 
                 <div>
-                  <Label className="text-gray-200">Full Name</Label>
+                  <Label className="text-gray-200">* Full Name</Label>
                   <div className="mt-1 relative">
                     <UserCircle className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                     <Input
@@ -228,7 +228,7 @@ const SignupPage = () => {
                 </div>
 
                 <div>
-                  <Label className="text-gray-200">Password</Label>
+                  <Label className="text-gray-200">* Password</Label>
                   <div className="mt-1 relative">
                     <Lock className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                     <Input
@@ -259,7 +259,7 @@ const SignupPage = () => {
                 </Button>
               </form>
             ) : (
-                <ResumeForm />
+              <ResumeForm />
             )}
 
             <div className="mt-6">

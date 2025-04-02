@@ -13,6 +13,7 @@ export const createProfile = createAsyncThunk("createProfile", async (data) => {
 export const getProfile = createAsyncThunk("getProfile", async (userId) => {
   try {
     const response = await apiClient.get(`${BASE_URL}/profile/${userId}`);
+    console.log("C----- ", response);
     return response.data.data;
   } catch (err) {
     console.log(err);
@@ -23,7 +24,10 @@ export const changeProfileDetails = createAsyncThunk(
   "changeProfileDetails",
   async (data) => {
     try {
-      const response = await apiClient.patch(`${BASE_URL}/profile/update`, data);
+      const response = await apiClient.patch(
+        `${BASE_URL}/profile/update`,
+        data,
+      );
       return response.data.data;
     } catch (err) {
       console.log(err);
@@ -35,7 +39,7 @@ export const getSubscribers = createAsyncThunk(
   "getSubscribers",
   async (userId) => {
     try {
-      if(!userId) throw new Error("userId required");
+      if (!userId) throw new Error("userId required");
       const response = await apiClient.get(`/subscriptions/s/${userId}`);
       return response.data.data;
     } catch (err) {
@@ -48,9 +52,9 @@ export const tonngleSubscription = createAsyncThunk(
   "tonngleSubscription",
   async (userId) => {
     try {
-      if(!userId) throw new Error("userId required");
+      if (!userId) throw new Error("userId required");
       const response = await apiClient.post(`/subscriptions/s/${userId}`);
-      console.log(response)
+      console.log(response);
       return response.data.data;
     } catch (err) {
       console.log(err);
@@ -78,10 +82,10 @@ const profileSlice = createSlice({
     builder.addCase(changeProfileDetails.fulfilled, (state, action) => {
       state.profileData = action.payload;
     });
-    builder.addCase(getSubscribers.fulfilled, (state,action) => {
+    builder.addCase(getSubscribers.fulfilled, (state, action) => {
       state.subscribers = action.payload.subscribers;
       state.isSubscribed = action.payload.subscribeByUser;
-    })
+    });
   },
 });
 

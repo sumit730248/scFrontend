@@ -1,25 +1,25 @@
 function generateQuestions() {
-const companies = [
-  "Google",
-  "Microsoft",
-  "Amazon",
-  "Facebook",
-  "Apple",
-  "Netflix",
-  "Tesla",
-  "Uber",
-  "Spotify",
-  "Airbnb",
-  "Salesforce",
-  "Adobe",
-  "Intel",
-];
-  
+  const companies = [
+    "Google",
+    "Microsoft",
+    "Amazon",
+    "Facebook",
+    "Apple",
+    "Netflix",
+    "Tesla",
+    "Uber",
+    "Spotify",
+    "Airbnb",
+    "Salesforce",
+    "Adobe",
+    "Intel",
+  ];
+
   // Define ranges for number of questions per difficulty
   const difficultyRanges = {
     Easy: { min: 5, max: 12 },
     Medium: { min: 3, max: 8 },
-    Hard: { min: 2, max: 5 }
+    Hard: { min: 2, max: 5 },
   };
 
   const types = [
@@ -32,7 +32,7 @@ const companies = [
     "Cloud Computing",
     "AI/ML",
     "Operating Systems",
-    "Web Development"
+    "Web Development",
   ];
 
   const questionsPool = {
@@ -51,7 +51,8 @@ const companies = [
       "Find the GCD of two numbers",
       "Remove duplicates from an array",
       "Sort an array using selection sort",
-      "Count the number of vowels in a string"
+      "Count the number of vowels in a string",
+      "sugam",
     ],
     Medium: [
       "Implement a LRU Cache",
@@ -67,7 +68,7 @@ const companies = [
       "Convert an infix expression to postfix",
       "Find the kth largest element in an array",
       "Implement quicksort",
-      "Check if a binary tree is balanced"
+      "Check if a binary tree is balanced",
     ],
     Hard: [
       "Design a distributed key-value store",
@@ -81,8 +82,8 @@ const companies = [
       "How would you design a social media platform?",
       "Design a payment gateway",
       "Build a scalable recommendation system",
-      "Implement a distributed file system like HDFS"
-    ]
+      "Implement a distributed file system like HDFS",
+    ],
   };
 
   // Helper function to get random number within range
@@ -98,29 +99,36 @@ const companies = [
 
   const companyQuestions = companies.map((company, companyId) => {
     let questionId = companyId * 1000; // Increased range for question IDs
-    const questions = Object.entries(difficultyRanges).flatMap(([difficulty, range]) => {
-      // Generate random number of questions for this difficulty
-      const questionCount = getRandomInRange(range.min, range.max);
-      
-      // Get random questions from pool without duplicates
-      const selectedQuestions = getRandomQuestions(questionsPool[difficulty], questionCount);
-      
-      return selectedQuestions.map(questionText => ({
-        id: ++questionId,
-        question: questionText,
-        difficulty: difficulty,
-        type: types[Math.floor(Math.random() * types.length)],
-        askedCount: getRandomInRange(50, 250), // Random asked count between 50-250
-        likes: getRandomInRange(20, 120), // Random likes between 20-120
-        lastAsked: new Date(Date.now() - getRandomInRange(0, 90) * 24 * 60 * 60 * 1000).toISOString() // Random date within last 90 days
-      }));
-    });
+    const questions = Object.entries(difficultyRanges).flatMap(
+      ([difficulty, range]) => {
+        // Generate random number of questions for this difficulty
+        const questionCount = getRandomInRange(range.min, range.max);
+
+        // Get random questions from pool without duplicates
+        const selectedQuestions = getRandomQuestions(
+          questionsPool[difficulty],
+          questionCount,
+        );
+
+        return selectedQuestions.map((questionText) => ({
+          id: ++questionId,
+          question: questionText,
+          difficulty: difficulty,
+          type: types[Math.floor(Math.random() * types.length)],
+          askedCount: getRandomInRange(50, 250), // Random asked count between 50-250
+          likes: getRandomInRange(20, 120), // Random likes between 20-120
+          lastAsked: new Date(
+            Date.now() - getRandomInRange(0, 90) * 24 * 60 * 60 * 1000,
+          ).toISOString(), // Random date within last 90 days
+        }));
+      },
+    );
 
     return {
       id: companyId + 1,
       name: company,
       logo: `/api/placeholder/48/48?text=${company[0]}`, // Creates placeholder with company initial
-      questions: questions
+      questions: questions,
     };
   });
 
